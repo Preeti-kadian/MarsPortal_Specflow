@@ -13,8 +13,3 @@ Scenario: Add Hours to profile
 	Then I successfully add hours
 	
 
-@mytag
-Scenario: Delete Hours to profile
-	Given I am on profile page
-	When I click on delete hours icon
-	Then I successfully delete hours

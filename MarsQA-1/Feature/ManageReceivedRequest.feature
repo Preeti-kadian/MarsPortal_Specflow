@@ -12,13 +12,6 @@ Scenario: Check Accept button on Manage Request page
 	Then I should see the Accepted status on the request status
 
 @mytag
-Scenario: Check Complete button on Manage Request page
-	Given I have received a new request
-	When I click on the received request menu option
-	And I Accept the new request
-	And I click on the Complete button.
-
-@mytag
 Scenario: Check Decline request on Manage Request page
 	Given I received a new request
 	When I click on the received request menu option

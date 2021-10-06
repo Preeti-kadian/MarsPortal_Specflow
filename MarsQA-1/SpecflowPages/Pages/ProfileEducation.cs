@@ -65,11 +65,9 @@ namespace MarsQA_1.SpecflowPages.Pages
         private static IWebElement deleteEducation => Driver.driver.FindElement(By.XPath("/html//div[@id='account-profile-section']/div/section[2]/div/div/div[@class='row']//form/div[4]//table/tbody/tr/td[6]/span[2]/i"));
 
         #endregion
-        #region Add Education feature
-        //Add Education
-        public static void AddEducation()
-        {
 
+        public static void ProfileEducationTab()
+        {
             //Click on profile tab
             ProfileEdit.WaitForElementClickable(Driver.driver, 60);
             ProfileEdit.Click();
@@ -77,10 +75,25 @@ namespace MarsQA_1.SpecflowPages.Pages
             //Click on education tab
             educationTab.WaitForElementClickable(Driver.driver, 60).Click();
 
+        }
+        public static void AddNewLink()
+        {
             //Click on add new education button
-            ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "Education");
+         
             AddNewEducation.WaitForElementClickable(Driver.driver, 60);
             AddNewEducation.Click();
+        }
+
+        #region Add Education feature
+        //Add Education
+        public static void AddEducation()
+        {
+            //Click on Education tab
+            ProfileEducationTab();
+
+            //Click on add new education button
+            ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "Education");
+            AddNewLink();
             //Enter the University
             EnterUniversity.SendKeys(ExcelLibHelper.ReadData(2, "University"));
 
@@ -108,7 +121,10 @@ namespace MarsQA_1.SpecflowPages.Pages
             AddEdu.WaitForElementClickable(Driver.driver, 60);
             AddEdu.Click();
             Thread.Sleep(3000);
+        }
 
+        public static void ValidateAddEducation()
+        { 
             //Validate Add Education 
             string actualCountry = Driver.driver.FindElement(By.XPath("/html//div[@id='account-profile-section']/div/section[2]/div/div//form/div[4]//table//td[.='Argentina']")).Text;
             string actualUniversity = Driver.driver.FindElement(By.XPath("/html//div[@id='account-profile-section']/div/section[2]/div/div//form/div[4]//table//td[.='MDU']")).Text;
@@ -131,23 +147,30 @@ namespace MarsQA_1.SpecflowPages.Pages
 
         #endregion
 
+        public static void EditLink()
+        {
+            ProfileEducationTab();
+            //Click on Edit education button
+        
+            editEducation.WaitForElementClickable(Driver.driver, 60);
+            editEducation.Click();
+        }
+
         #region Update Education details
         public static void UpdateEducation()
         {
-            //Click on education tab
-            educationTab.WaitForElementClickable(Driver.driver, 60).Click();
+            EditLink();
 
             //Click on Edit education button
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "Education");
-            editEducation.WaitForElementClickable(Driver.driver, 60);
-            editEducation.Click();
+            EditLink();
             Thread.Sleep(3000);
             //Enter the University
             EnterUniversity.Clear();
             EnterUniversity.SendKeys(ExcelLibHelper.ReadData(3, "University"));
             updateEdu.WaitForElementClickable(Driver.driver, 60);
             updateEdu.Click();
-
+        
             //Validate Update Education 
             Thread.Sleep(3000);
             string actualUniversity = Driver.driver.FindElement(By.XPath("/html//div[@id='account-profile-section']/div/section[2]/div/div//form/div[4]//table//td[.='ITM']")).Text;
@@ -171,13 +194,14 @@ namespace MarsQA_1.SpecflowPages.Pages
         #region Delete Education
         public static void DeleteEducation()
         {
+
             //Click on education tab
-            educationTab.WaitForElementClickable(Driver.driver, 60).Click();
-            educationTab.Click();
+            ProfileEducationTab();
 
             //Click on  Delete icon
             deleteEducation.WaitForElementClickable(Driver.driver, 60);
             deleteEducation.Click();
+        
 
             //Validate delete Education 
 

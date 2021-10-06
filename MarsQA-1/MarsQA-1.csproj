@@ -155,6 +155,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Steps\ProfilePasswordSteps.cs" />
+    <Compile Include="Steps\ProfileHoursStep.cs" />
     <Compile Include="SpecflowPages\Helpers\Extension.cs" />
     <Compile Include="SpecflowPages\Pages\Chat.cs" />
     <Compile Include="SpecflowPages\Pages\ShareSkill.cs" />
@@ -166,11 +168,10 @@
     <Compile Include="SpecflowPages\Pages\ProfileEducation.cs" />
     <Compile Include="Steps\ManageListingSteps.cs" />
     <Compile Include="Steps\NotificationsSteps.cs" />
-    <Compile Include="Steps\ProfileCertification.cs" />
+    <Compile Include="Steps\ProfileCertificationSteps.cs" />
     <Compile Include="Steps\ProfileEducation.cs" />
     <Compile Include="Steps\ReceivedRequestSteps.cs" />
     <Compile Include="Steps\SearchSkillSteps.cs" />
-    <Compile Include="Steps\ProfileHourSteps.cs" />
     <Compile Include="Steps\ProfileDescriptionSteps.cs" />
     <Compile Include="SpecflowPages\Pages\ProfileLanguage.cs" />
     <Compile Include="SpecflowPages\Pages\ProfileSkills.cs" />
@@ -198,7 +199,6 @@
     <None Include="Feature\ManageReceivedRequest.feature" />
     <None Include="Feature\ManageSentRequest.feature" />
     <None Include="Feature\Notifications.feature" />
-    <None Include="Feature\Profile\ProfileEarnTarget.feature" />
     <None Include="Feature\Profile\PofileHours.feature" />
     <None Include="Feature\Profile\ProfileAvailability.feature" />
     <None Include="Feature\Profile\ProfileCertification.feature" />
@@ -207,6 +207,7 @@
     <None Include="Feature\Profile\ProfileSkills.feature" />
     <None Include="Feature\Profile\ProfileDescription.feature" />
     <None Include="Feature\chat.feature" />
+    <None Include="Feature\Profile\SpecFlowFeature1.feature" />
     <None Include="Feature\SearchSkill.feature" />
     <None Include="SpecflowTests\Data\Data.xlsx" />
     <None Include="packages.config" />

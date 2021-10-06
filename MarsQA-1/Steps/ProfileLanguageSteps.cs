@@ -11,7 +11,8 @@ namespace MarsQA_1.Steps
         [Given(@"I am on profile page")]
         public void GivenIAmOnProfilePage()
         {
-
+            ProfileLanguage.LanguageTab();
+                
         }
 
         [Given(@"I click on add new under language")]
@@ -36,14 +37,14 @@ namespace MarsQA_1.Steps
             ProfileLanguage.DeleteLanguage();
         }
      
-            [When(@"I add languages")]
+          [When(@"I add languages")]
             public void WhenIAddLanguages()
         {
-           
+            ProfileLanguage.AddLangButton();
         }
 
         
-            [Then(@"I am able to see the added languages")]
+        [Then(@"I am able to see the added languages")]
             public void ThenIAmAbleToSeeTheAddedLanguages()
         {
             ProfileLanguage.ValidateAddedLanguage();
@@ -58,7 +59,8 @@ namespace MarsQA_1.Steps
            [When(@"I update languages")]
             public void WhenIUpdateLanguages()
         {
-            
+            ProfileLanguage.UpdateLanguage();
+
         }
 
      

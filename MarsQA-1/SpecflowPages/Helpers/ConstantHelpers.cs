@@ -15,10 +15,10 @@ namespace MarsQA_1.Helpers
         public static string ScreenshotPath = @"E:\Advanced Specflow\MarsQA-1\SpecflowTests\ScreenShot\";
 
         //ExtentReportsPath
-        public static string ReportsPath = @"E:\Advanced Specflow\MarsQA-1\TestReports\Reports\Test.html";
+        public static string ReportsPath = @"E:\Advanced Specflow\MarsQA-1\TestReports\Reports\TestReport.html";
 
         //ReportXML Path
-        public static string ReportXMLPath = @"E:\Advanced Specflow\MarsQA-1\TestReports\Reports\test.xml";
+        public static string ReportXMLPath = @"E:\Advanced Specflow\MarsQA-1\TestReports\Reports\testreport.xml";
 
         public static string ExcelPath = @"E:\Advanced Specflow\MarsQA-1\SpecflowTests\Data\ShareSkills_TestData.xlsx";
 

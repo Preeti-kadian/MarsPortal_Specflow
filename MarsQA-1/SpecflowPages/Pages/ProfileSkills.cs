@@ -11,6 +11,7 @@ using System.Threading;
 using static MarsQA_1.Helpers.CommonMethods;
 using RelevantCodes.ExtentReports;
 using MArsQASpecflow.SpecflowPages.Utils;
+using MarsFramework.Global;
 
 namespace MarsQA_1.SpecflowPages.Pages
 {
@@ -23,27 +24,54 @@ namespace MarsQA_1.SpecflowPages.Pages
 
         private static IWebElement addSkillButton => Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/span/input[1]"));
         private static IWebElement cancelAddSkill => Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/span/input[2]"));
-        private static IWebElement editSKill => Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[1]/tr/td[3]/span[1]/i"));
+        private static IWebElement editSKill => Driver.driver.FindElement(By.XPath("/html//div[@id='account-profile-section']/div/section[2]/div/div/div[@class='row']//form/div[3]//table/tbody[1]/tr/td[3]/span[1]/i"));
         private static IWebElement updateSkillButton => Driver.driver.FindElement(By.XPath("//input[@value='Update']"));
         private static IWebElement cancelSkillUpdate => Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[1]/tr/td/div/span/input[2]"));
         private static IWebElement deleteSkill => Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody/tr/td[3]/span[2]/i"));
         private static IWebElement skillContent => Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[2]/tr/td[1]"));
 
+        public static void SkillsTab()
+        {
+            //Click on skills tab
+            skills.WaitForElementClickable(Driver.driver, 30).Click();
+        }
+
+        public static void AddNewSkillButton()
+        {
+            addNewSkill.WaitForElementClickable(Driver.driver, 30).Click();
+        }
+
+        public static void EditSkillIcon()
+        {
+            SkillsTab();
+            //Click on Edit skill icon
+            editSKill.WaitForElementClickable(Driver.driver, 30).Click();
+        }
+
+        public static void DeleteSkill()
+        {
+            SkillsTab();
+            //Click on delete icon
+            deleteSkill.WaitForElementClickable(Driver.driver, 30).Click();
+        }
+
         //Add new Skill
         public static void AddSkills()
         {
             //Add new skill
-            skills.Click();
-
+           
+            
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "Skills");
             //Read data from excel file
-            for (int i = 2; i <= 4; i++)
+            for (int i = 2; i <=4; i++)
             {
+                //Click on Add new button
                 Driver.TurnOnWait(2);
-                addNewSkill.Click();
-                Driver.TurnOnWait(2);
+                AddNewSkillButton();
+
+                Thread.Sleep(3000);
                 addSkill.SendKeys(ExcelLibHelper.ReadData(i, "Skillls"));
-                Driver.TurnOnWait(2);
+                Thread.Sleep(1000);
                 //Select option from drop down list
                 SelectElement skillsdropdown = new SelectElement(Driver.driver.FindElement(By.Name("level")));
                 Driver.TurnOnWait(2);
@@ -52,7 +80,6 @@ namespace MarsQA_1.SpecflowPages.Pages
                 int count = rnd.Next(1, i);
                 skillsdropdown.SelectByIndex(count);
 
-                //Thread.Sleep(500);
                 addSkillButton.Click();
                 Thread.Sleep(1500);
             }
@@ -61,6 +88,7 @@ namespace MarsQA_1.SpecflowPages.Pages
         //Validate added skill
         public static void ValidateAddSkills()
         {
+            
             //Validate the skills are added sucessfully
             try
             {
@@ -97,21 +125,20 @@ namespace MarsQA_1.SpecflowPages.Pages
 
     public static void UpdateSkills()
         {
-            skills.Click();
-      
+            SkillsTab();
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "Skills");
    
             //Update and read Skills from Excel data
             for (int i = 1; i <= 3; i++)
             {
             
-                IWebElement editIcon = Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[" + i + "]/tr/td[3]/span[1]/i"));
-                Thread.Sleep(2000);
+                //IWebElement editIcon = Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[" + i + "]/tr/td[3]/span[1]/i"));
+                Thread.Sleep(300);
                 //Click on Edit skills icon
-                editIcon.Click();
+              
                 //Clear content for skills input 
                 addSkill.Clear();
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
                 //Read updated skills from Excel file
                 addSkill.SendKeys(ExcelLibHelper.ReadData(i + 1, "Updated_Skills"));
                 
@@ -125,6 +152,7 @@ namespace MarsQA_1.SpecflowPages.Pages
                 //Save updated Skills
                 updateSkillButton.Click();
                 Thread.Sleep(3000);
+                EditSkillIcon();
             }
 
         }
@@ -168,14 +196,14 @@ namespace MarsQA_1.SpecflowPages.Pages
         //Delete skills
         public static void DeleteSkills()
         { 
-            skills.Click();
+            SkillsTab();
             Driver.TurnOnWait(2);
             IList<IWebElement> rows = Driver.driver.FindElements(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody/tr"));
             //Read the row count in table
             for (var i = 1; i <= rows.Count; i++)
             {
 
-                deleteSkill.Click();
+                DeleteSkill();
                 Thread.Sleep(2000);
             }
         }

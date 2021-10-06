@@ -9,6 +9,7 @@ using static MarsQA_1.Helpers.CommonMethods;
 using RelevantCodes.ExtentReports;
 using RelevantCodes.ExtentReports.Model;
 using MArsQASpecflow.SpecflowPages.Utils;
+using MarsFramework.Global;
 
 namespace MarsQA_1.SpecflowPages.Pages
 {
@@ -30,18 +31,38 @@ namespace MarsQA_1.SpecflowPages.Pages
         private static IWebElement deleteLanguage => Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody[1]/tr/td[3]/span[2]/i"));
         private static IWebElement deleteContent => Driver.driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr/td[1]"));
 
+        
+        public static void LanguageTab()
+        {
+            //Add new language
+            languageTab.WaitForElementClickable(Driver.driver, 30).Click();
+        }
+
+        public static void AddLangButton()
+        {
+            //Click on Add new button
+            addNewLanguageButton.WaitForElementClickable(Driver.driver, 30).Click();
+        }
+       
+        public static void DeleteLangIcon()
+        {
+            //Click on Add new button
+            deleteLanguage.WaitForElementClickable(Driver.driver, 30).Click();
+        }
+
+
         //Add new language
         public static void AddLanguage()
         {
-            //Add new language
-            languageTab.Click();
+            //Click on language tab
+            LanguageTab();
 
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "Language");
             //Read data from excel file
             for (int i = 2; i <= 5; i++)
             {
                 Thread.Sleep(2000);
-                addNewLanguageButton.Click();
+                AddLangButton();
                 Driver.TurnOnWait(3);
                 languageAdd.SendKeys(ExcelLibHelper.ReadData(i, "Language"));
                 Driver.TurnOnWait(2);
@@ -172,8 +193,8 @@ namespace MarsQA_1.SpecflowPages.Pages
             //Read the row count in table
             for (var i = 1; i <=rows.Count; i++)
             {
-                
-                deleteLanguage.Click();
+
+                DeleteLangIcon();
                 Thread.Sleep(3000);
 
             }

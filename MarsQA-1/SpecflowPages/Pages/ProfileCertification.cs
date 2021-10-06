@@ -51,25 +51,63 @@ namespace MarsQA_1.SpecflowPages.Pages
         private IWebElement AddCertificate => Driver.driver.FindElement(By.XPath("/html//div[@id='account-profile-section']/div/section[2]/div/div//form/div[5]//input[@value='Add']"));
         #endregion
 
-        #region Add certification
-        //Add new Certificate
-        public void AddNewCertificate()
+        public void ProfileEditLink()
         {
 
             //Click on profile tab
             ProfileEdit.WaitForElementClickable(Driver.driver, 60);
             ProfileEdit.Click();
+        }
 
+        public void CertificationTab()
+        {
             //Click on certification tab
             certifications.WaitForElementClickable(Driver.driver, 40);
             certifications.Click();
+        }
 
+        public void AddButton()
+        {
+            //Click on Profile tab
+            ProfileEditLink();
+            //click on certification tab
+            CertificationTab();
+            Thread.Sleep(2000);
             //Click on Add new certificate button
             AddNewButton.WaitForElementClickable(Driver.driver, 60);
             AddNewButton.Click();
+        }
+
+        public void EditButton()
+        {
+            //Click on certification tab
+            CertificationTab();
+            //Click on edit icon
+            Thread.Sleep(2000);
+            editCertificate.WaitForElementClickable(Driver.driver, 60).Click();
+        }
+
+        public void DeleteButton()
+        {
+            
+            //Click on certificate tab
+            CertificationTab();
+
+            //Click on delete icon
+            deleteCertificate.WaitForElementClickable(Driver.driver, 40).Click();
+        }
+
+        #region Add certification
+        //Add new Certificate
+        public void AddNewCertificate()
+        {
+            //Click on Add new certificate button
+            AddButton();
+
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "Certification");
-            Driver.TurnOnWait(3);
-            ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "Certification");
+           
+            
+            Thread.Sleep(4000);
             //Enter Certificate Name
             EnterCertificate.SendKeys(ExcelLibHelper.ReadData(2, "Certification"));
 
@@ -86,6 +124,10 @@ namespace MarsQA_1.SpecflowPages.Pages
             CertificateYearOpt.Click();
             AddCertificate.Click();
             Thread.Sleep(500);
+        }
+
+        public void ValidateAddCertificate()
+        { 
             //Validate Add certification 
             string actualCertificateName = Driver.driver.FindElement(By.XPath("//td[normalize-space()='Publishing']")).Text;
             string expectedCertificateName = ExcelLibHelper.ReadData(2, "Certification");
@@ -103,16 +145,14 @@ namespace MarsQA_1.SpecflowPages.Pages
         {
 
             //Click on profile tab
-            ProfileEdit.WaitForElementClickable(Driver.driver, 60);
-            ProfileEdit.Click();
+            ProfileEditLink();
 
             //Click on certification tab
-            certifications.WaitForElementClickable(Driver.driver, 40);
-            certifications.Click();
+            CertificationTab();
 
             //Click on Add new certificate button
             Thread.Sleep(4000);
-            editCertificate.Click();
+            EditButton();
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "Certification");
             Thread.Sleep(3000);
             //Enter Certificate Name
@@ -123,6 +163,10 @@ namespace MarsQA_1.SpecflowPages.Pages
             updateCertificate.WaitForElementClickable(Driver.driver, 60);
             updateCertificate.Click();
             Thread.Sleep(500);
+        }
+
+        public void ValidateUpdateCertficate()
+        { 
             //Validate Update certification 
             string actualCertificateName = Driver.driver.FindElement(By.XPath("//td[normalize-space()='MBA']")).Text;
             string expectedCertificateName = ExcelLibHelper.ReadData(3, "Certification");
@@ -137,23 +181,19 @@ namespace MarsQA_1.SpecflowPages.Pages
         //Delete Certificate
         public void DeleteCertificate()
         {
-
-            //Click on profile tab
-            ProfileEdit.WaitForElementClickable(Driver.driver, 60);
-            ProfileEdit.Click();
-
-            //Click on certification tab
-            certifications.WaitForElementClickable(Driver.driver, 40);
-            certifications.Click();
-
             Thread.Sleep(4000);
             //Click on save button
-            deleteCertificate.Click();
-            Thread.Sleep(500);
+            DeleteButton();
+        }
+
+        public void ValidateDeleteCertificate()
+        {
+            Thread.Sleep(5000);
+         
             //Validate delete certificate
-            IWebElement deleteMessage = Driver.driver.FindElement(By.XPath("//div[@class='ns-box ns-growl ns-effect-jelly ns-type-success ns-show']"));
-            Driver.TurnOnWait(4);
-            Assert.IsTrue(deleteMessage.Enabled);
+            //IWebElement deleteMessage = Driver.driver.FindElement(By.XPath("//div[@class='ns-box ns-growl ns-effect-jelly ns-type-success ns-show']"));
+            Driver.TurnOnWait(2);
+            Assert.IsFalse(deleteCertificate.Text==null);
             Start.test.Log(LogStatus.Pass, "Deleted certifcation successfully");
             SaveScreenShotClass.SaveScreenshot(Driver.driver, "Certficate deleted");
 

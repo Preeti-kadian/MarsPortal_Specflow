@@ -24,7 +24,7 @@ namespace MarsQA_1.SpecflowPages.Pages
         public IWebElement seeAllLink => Driver.driver.FindElement(By.LinkText("See All..."));
 
         //Mark As Read link
-        public IWebElement markAsReadLink => Driver.driver.FindElement(By.XPath("/html//div[@id='service-search-section']/div[1]/div[2]/div/div/div//a[.='Mark all as read']"));
+        public IWebElement markAsReadLink => Driver.driver.FindElement(By.XPath("//div/div[1]/div[2]/div/div/div[2]//a[.='Mark all as read']"));
 
         //Select All button
         public IWebElement selectAll => Driver.driver.FindElement(By.XPath("//div[@data-tooltip='Select all']"));
@@ -46,20 +46,168 @@ namespace MarsQA_1.SpecflowPages.Pages
 
         //Show less button
         public IWebElement showLessLink => Driver.driver.FindElement(By.XPath("//a[normalize-space()='...Show Less']"));
+
+
         #endregion
 
-        #region Notification feature
-        public void Notification()
+        public void NotificationLink()
         {
             //Click on notification link
             notificationLink.WaitForElementClickable(Driver.driver, 60);
             notificationLink.Click();
+        }
 
-            //Click on See All link
+        public void ValidateNavigate()
+        {
+            NotificationLink();
+            try 
+            { 
+            string dashboardActualTitle = Driver.driver.Title;
+            string expectedTitle = "Dashboard";
+            Assert.AreEqual(dashboardActualTitle, expectedTitle);
+            Driver.TurnOnWait(2);
+            Start.test.Log(LogStatus.Pass, "Test Passed, Navigation successful");
+            SaveScreenShotClass.SaveScreenshot(Driver.driver, "User on dashboard page");
+            Thread.Sleep(3000);
+            Assert.IsTrue(true);
+
+        }
+            catch (Exception ex)
+            {
+                Driver.TurnOnWait(2);
+                Start.test.Log(LogStatus.Fail, "Test Failed");
+                Assert.Fail("Test Failed, navigation not successful", ex.Message);
+            }
+
+        }
+
+        public void MarkAll()
+        {
+          
+           
+            Thread.Sleep(6000);
+            //Click on mark all as read
+            markAsReadLink.WaitForElementClickable(Driver.driver, 40).Click();
+        }
+
+        public void UnSelectAllNotification()
+        {
+           
+           
+            Thread.Sleep(3000);
+            //SelectAllLink();
+
+            unselectAll.WaitForElementClickable(Driver.driver, 30).Click();
+        }
+
+        public void SeeAllLink()
+        {
+            Thread.Sleep(4000);
+            NotificationLink();
             seeAllLink.WaitForElementClickable(Driver.driver, 60);
             seeAllLink.Click();
-            Driver.TurnOnWait(1);
+
+        }
+
+
+        public void SelectAllLink()
+        {
+            Thread.Sleep(2000);
+            //SeeAllLink();
+            //Click on Select All
+            selectAll.WaitForElementClickable(Driver.driver, 60).Click();
+            Thread.Sleep(2000);
+        }
+
+        public void LoadMoreLink()
+        {
+            Thread.Sleep(2000);
+            //SelectAllLink();
+            //Click on Load more
+            loadMoreLink.WaitForElementClickable(Driver.driver, 60);
+            loadMoreLink.Click();
+        }
+
+        public void ShowLessLink()
+        {
+            Thread.Sleep(2000);
+            LoadMoreLink();
+            //Click on show less link
+            showLessLink.WaitForElementClickable(Driver.driver, 60);
+            showLessLink.Click();
+        }
+
+        public void ValidateShowLessNotDisplayed()
+        {
+            if(showLessLink.Displayed==false)
+            {
+                Assert.IsTrue(true);
+            }
+        }
+       
+
+        public void UnselectAllLink()
+        {
+            Thread.Sleep(2000);
+            SelectAllLink();
+            //Click on Unselect all link
+            unselectAll.WaitForElementClickable(Driver.driver, 60);
+            unselectAll.Click();
+        }
+        public void CheckAll()
+        {
+            Thread.Sleep(2000);
+            //UnselectAllLink();
+            Thread.Sleep(2000);
+            //Click on Unselect all link
+            notificationCheckBox.WaitForElementClickable(Driver.driver, 60);
+            notificationCheckBox.Click();
+        }
+
+        public void DeleteNotification()
+        {
             
+            Thread.Sleep(3000);
+            //Click on Select all
+            SelectAllLink();
+
+            //Click on delete button
+            deleteButton.WaitForElementClickable(Driver.driver, 60);
+            deleteButton.Click();
+        }
+
+        public void ValidateDeleteNotification()
+        {
+           
+            //Click on Select All
+            SelectAllLink();
+
+            try
+            {
+                //Click on delete button
+                DeleteNotification();
+
+        Start.test.Log(LogStatus.Pass, " Notification Delete Test Successful");
+                SaveScreenShotClass.SaveScreenshot(Driver.driver, "Notification Delete Successful");
+            }
+            catch (Exception ex)
+            {
+                Start.test.Log(LogStatus.Fail, "Test failed");
+                Assert.Fail("Test Failed, Notification not deleted", ex.Message);
+
+            }
+        }
+
+        #region Notification feature
+        public void ValidateSeeAllNotification()
+        {
+            //Click on notification link
+            NotificationLink();
+
+            //Click on See All link
+            SeeAllLink();
+            Driver.TurnOnWait(1);
+        
             //Validate See all link  
             try
             {
@@ -80,44 +228,7 @@ namespace MarsQA_1.SpecflowPages.Pages
             Thread.Sleep(3000);
 
 
-            //Click on Select All
-            selectAll.WaitForElementClickable(Driver.driver, 60).Click();
-            Thread.Sleep(2000);
-
-            //Click on Load more
-            loadMoreLink.WaitForElementClickable(Driver.driver, 60);
-            loadMoreLink.Click();
-
-            //Click on show less link
-            showLessLink.WaitForElementClickable(Driver.driver, 60);
-            showLessLink.Click();
-
-            //Click on Unselect all link
-            unselectAll.WaitForElementClickable(Driver.driver, 60);
-            unselectAll.Click();
-
-
-            //Click on top notification checkbox
-            notificationCheckBox.WaitForElementClickable(Driver.driver, 60);
-            notificationCheckBox.Click();
-
-            try
-            {
-                //Click on delete button
-                deleteButton.WaitForElementClickable(Driver.driver, 60);
-                deleteButton.Click();
-
-                Start.test.Log(LogStatus.Pass, " Notification Delete Test Successful");
-                SaveScreenShotClass.SaveScreenshot(Driver.driver, "Notification Delete Successful");
-            }
-            catch (Exception ex)
-            {
-                Start.test.Log(LogStatus.Fail, "Test failed");
-                Assert.Fail("Test Failed, Notification not deleted", ex.Message);
-
-            }
-
-
+     
         }
 
         #endregion

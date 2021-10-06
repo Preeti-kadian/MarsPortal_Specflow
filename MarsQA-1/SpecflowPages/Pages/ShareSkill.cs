@@ -35,7 +35,7 @@ namespace MarsQA_1.SpecflowPages.Pages
         //Select the Location Type
         private static IWebElement LocationTypeOption => Driver.driver.FindElement(By.XPath("//form/div[6]/div[@class='twelve wide column']/div/div[@class = 'field']"));
         //Start Date dropdown
-        private static IWebElement StartDateDropDown => Driver.driver.FindElement(By.Name("startDate"));
+        private static IWebElement StartDateDropDown => Driver.driver.FindElement(By.XPath("//input[@placeholder='Start date']"));
 
         //EndDateDropDown
         private static IWebElement EndDateDropDown => Driver.driver.FindElement(By.Name("endDate"));
@@ -54,15 +54,17 @@ namespace MarsQA_1.SpecflowPages.Pages
         //Save button
         private static IWebElement Save => Driver.driver.FindElement(By.XPath("//input[@value='Save']"));
 
-
-        #region Add service listing
-        public static void EnterSkill()
+        public static void ShareSkillLink()
         {
             ShareSkillButton.WaitForElementClickable(Driver.driver, 60);
 
             //Click on share skill button and navigate to Skill listing page
             ShareSkillButton.Click();
+        }
 
+        #region Add service listing
+        public static void EnterSkill()
+        {
             //Populate the excel data
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "ShareSkills");
 
@@ -102,16 +104,16 @@ namespace MarsQA_1.SpecflowPages.Pages
             LocationTypeOption.Click();
 
             //Select Date 
-            Thread.Sleep(3000);
-            //StartDateDropDown.Clear();
+            Thread.Sleep(5000);
+            StartDateDropDown.Clear();
             StartDateDropDown.SendKeys(ExcelLibHelper.ReadData(2, "Startdate"));
 
             //Select End date
-            Thread.Sleep(500);
+            Thread.Sleep(2000);
             //EndDateDropDown.Clear();
             EndDateDropDown.SendKeys(ExcelLibHelper.ReadData(2, "Enddate"));
 
-            Thread.Sleep(2000);
+            Thread.Sleep(4000);
 
             #region Select dates, days and time
 
@@ -140,7 +142,7 @@ namespace MarsQA_1.SpecflowPages.Pages
 
 
                     //Select Start Time
-                    Thread.Sleep(500);
+                    Thread.Sleep(2000);
                     //StartTimeDropDown.Clear();
                     StartTimeDropDown.ElementAt(i).SendKeys(ExcelLibHelper.ReadData(i + 1, "Starttime"));
 
@@ -198,14 +200,22 @@ namespace MarsQA_1.SpecflowPages.Pages
             Driver.TurnOnWait(2);
             ActiveOption.Click();
 
+ 
+        }
+
+        public static void SaveSkill()
+        {
             //Save Share Skills Listing
             Save.WaitForElementClickable(Driver.driver, 60);
             Save.Click();
             Thread.Sleep(3000);
 
+        }
 
-            #region Validate if Skill saved successfully
-
+        #region Validate if Skill saved successfully
+        public static void ValidateShareSkill()
+        {
+           
             Driver.TurnOnWait(5);
             string actualPageTitle = Driver.driver.Title;
             string expectedPageTitle = "ListingManagement";
@@ -231,10 +241,9 @@ namespace MarsQA_1.SpecflowPages.Pages
                 Assert.Fail("Test Failed, Skill not saved", ex.Message);
             }
 
-            #endregion
+           
         }
-
-        
+        #endregion
 
 
 

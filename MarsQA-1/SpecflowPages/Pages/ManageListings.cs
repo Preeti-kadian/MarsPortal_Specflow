@@ -48,17 +48,46 @@ namespace MarsQA_1.SpecflowPages.Pages
 
         private static IWebElement languageTab => Driver.driver.FindElement(By.XPath(""));
 
+        public static void ManageListingLink()
+        {
+            //Click on ManageListing Link
+            manageListingsLink.WaitForElementClickable(Driver.driver, 60);
+            manageListingsLink.Click();
+        }
+
+        public static void ViewListingIcon()
+        {
+            
+            Thread.Sleep(2000);
+            //Click on view icon
+            view.WaitForElementClickable(Driver.driver, 30).Click();
+        }
+
+        public static void EditListingIcon()
+        {
+            ManageListingLink();
+            Thread.Sleep(2000);
+            edit.WaitForElementClickable(Driver.driver, 60);
+            edit.Click();
+        }
+
+        public static void DeleteListingIcon()
+        {
+            ManageListingLink();
+            Thread.Sleep(2000);
+            //Click on delete icon
+            delete.WaitForElementClickable(Driver.driver, 30).Click();
+
+        }
 
         #region Edit service listings
         public static void EditServiceListing()
         {
             //Click on ManageListing Link
-            manageListingsLink.WaitForElementClickable(Driver.driver, 60);
-            manageListingsLink.Click();
-
+            
+            Thread.Sleep(3000);
             //Click on edit service Icon
-            edit.WaitForElementClickable(Driver.driver, 60);
-            edit.Click();
+            EditListingIcon();
 
             //Populate the excel data
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.ExcelPath, "ManageListings");
@@ -77,9 +106,12 @@ namespace MarsQA_1.SpecflowPages.Pages
             //Click on Save listing button
             Save.WaitForElementClickable(Driver.driver, 60);
             Save.Click();
+        }
 
             #region Validate edit service listing functionality
-
+            public static void ValidateEditServiceListing()
+        { 
+            
             Thread.Sleep(2);
             string expectedTitle = "Software Testing";
             string expectedDescription = "Experience in both Manual and Automatic Testing";
@@ -117,14 +149,14 @@ namespace MarsQA_1.SpecflowPages.Pages
         public static void ViewListing()
         {
 
-            //Click on ManageListing Link
-            manageListingsLink.WaitForElementClickable(Driver.driver, 60);
-            manageListingsLink.Click();
-
             //Click on View Listing icon
-            view.WaitForElementClickable(Driver.driver, 60);
-            view.Click();
+            ViewListingIcon();
 
+        }
+
+        public static void ValidateViewListing()
+        {
+            ViewListing();
             //Validate view listing feature
             Driver.TurnOnWait(3);
             string actualPageTitle = Driver.driver.Title;
@@ -142,7 +174,9 @@ namespace MarsQA_1.SpecflowPages.Pages
                 Driver.TurnOnWait(2);
                 Start.test.Log(LogStatus.Pass, "Test Passed, Service listing viewed");
                 SaveScreenShotClass.SaveScreenshot(Driver.driver, "ViewSuccessfully");
+                Thread.Sleep(3000);
                 Assert.IsTrue(true);
+               
             }
             catch (Exception ex)
             {
@@ -153,27 +187,30 @@ namespace MarsQA_1.SpecflowPages.Pages
         }
         #endregion
 
-        #region Delete Service Listing
-        public static void DeleteListings()
+        public static void DeleteAlert()
         {
-
-            //wait for element to be clickable
-            manageListingsLink.WaitForElementClickable(Driver.driver, 60);
-            //click on Manage listing Link
-            manageListingsLink.Click();
-
-            //click on delete link
-            delete.WaitForElementClickable(Driver.driver, 60);
-            delete.Click();
-
             //Wait for Click Yes button element
             clickYesButton.WaitForElementClickable(Driver.driver, 60);
             //Confirm Delete operation
             clickYesButton.Click();
+        }
+
+        #region Delete Service Listing
+        public static void DeleteListings()
+        {
 
 
-            #region Validate delete listings functionality
+            //click on delete link
+            DeleteListingIcon();
 
+            //Accept the alert window
+            DeleteAlert();
+        }
+
+
+        #region Validate delete listings functionality
+        public static void ValidateDeleteListing()
+        {
             Thread.Sleep(5000);
             //wait for TitleText to be clickable
             string actualMessageDisplay = "You do not have any service listings!";

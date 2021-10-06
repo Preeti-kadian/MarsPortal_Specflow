@@ -11,10 +11,10 @@ namespace MarsQA_1.Pages
         private static IWebElement Password => Driver.driver.FindElement(By.XPath("//INPUT[@type='password']"));
         private static IWebElement LoginBtn => Driver.driver.FindElement(By.XPath("//BUTTON[@class='fluid ui teal button'][text()='Login']"));
 
+        
         public static void SigninStep()
         {
-            Driver.NavigateUrl();
-            SignInBtn.Click();
+            ClickSignInBtn();
             Email.SendKeys(ExcelLibHelper.ReadData(2, "Username"));
             Password.SendKeys(ExcelLibHelper.ReadData(2, "Password"));
             LoginBtn.Click();
@@ -26,7 +26,7 @@ namespace MarsQA_1.Pages
             SignInBtn.Click();
         }
 
-        public static void Login()
+        public static void InvalidLogin()
         {
             Driver.NavigateUrl();
 
@@ -38,7 +38,10 @@ namespace MarsQA_1.Pages
 
             //Enter invalid password
             Driver.driver.FindElement(By.XPath("//INPUT[@type='password']")).SendKeys("tokas112");
+        }
 
+        public static void InvalidLoginButton()
+        { 
             //Click on Login Button
             Driver.driver.FindElement(By.XPath("//BUTTON[@class='fluid ui teal button'][text()='Login']")).Click();
 
